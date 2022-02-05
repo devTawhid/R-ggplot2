@@ -1,3 +1,4 @@
+#===============
 library(ggplot2)
 data <- mtcars
 str(data)
@@ -123,6 +124,121 @@ ggplot(mtcars, aes(x = wt,
                    size = am)) +
   # Change point shape; set alpha
   geom_point(shape = 21, size = 4, alpha = .6)
+
+
+
+#
+# Establish the base layer
+plt_mpg_vs_wt <- ggplot(mtcars, aes(x = wt,
+                                    y = mpg))
+
+# Map fcyl to size
+plt_mpg_vs_wt +
+  geom_point(aes(size = cyl))
+
+plt_mpg_vs_wt +
+  geom_point(aes(alpha = cyl))
+
+plt_mpg_vs_wt +
+  geom_point(aes(shape = as.factor(cyl)))
+
+plt_mpg_vs_wt +
+  geom_text(aes(label = as.factor(cyl)))
+
+
+#=======================================
+# A hexadecimal color
+my_blue <- "#4ABEFF"
+
+ggplot(mtcars, aes(wt, mpg)) +
+  # Set the point color and alpha
+  geom_point(color = my_blue,
+             alpha = .6)
+
+
+# A hexadecimal color
+my_blue <- "#4ABEFF"
+
+# Change the color mapping to a fill mapping
+ggplot(mtcars, aes(wt, 
+                   mpg, 
+                   fill = cyl)) +
+  # Set point size and shape
+  geom_point(color = my_blue,
+             size = 10,
+             shape = 1)
+
+
+#
+ggplot(mtcars, aes(x = wt, 
+                   y = mpg,
+                   color = cyl)) +
+  geom_point(alpha = .5)
+
+#
+ggplot(mtcars, aes(x = wt, 
+                   y = mpg,
+                   color = cyl)) +
+  geom_text(label = rownames(mtcars), 
+            color = "red")
+
+
+ggplot(mtcars, aes(x = wt, 
+                   y = mpg,
+                   color = cyl)) +
+  geom_point(color = "yellow",
+            shape = 24,)
+
+
+#
+# 5 aesthetics: add a mapping of size to hp / wt
+ggplot(mtcars, aes(x = mpg, 
+                   y = qsec, 
+                   color = as.factor(cyl), 
+                   shape = as.factor(am),
+                   size = hp/wt)) +
+  geom_point()
+
+
+
+# bar plot
+ggplot(mtcars, aes(as.factor(cyl), fill = as.factor(am))) +
+  geom_bar() +
+  # Set the axis labels
+  xlab("Number of Cylinders") + 
+  ylab("Count")
+
+#
+palette <- c(automatic = "#377EB8", manual = "#E41A1C")
+
+ggplot(mtcars, aes(as.factor(cyl), fill = as.factor(am))) +
+  geom_bar(position = "dodge") +
+  labs(x = "Number of Cylinders", y = "Count")
+
+
+
+
+
+
+
+#
+# Plot 0 vs. mpg
+ggplot(mtcars, aes(0, mpg)) +
+  # Add jitter 
+  geom_point(position = "jitter")
+
+
+#
+ggplot(mtcars, aes(mpg, 0)) +
+  geom_jitter() +
+  # Set the y-axis limits
+  ylim(-2,2)
+
+
+
+
+
+
 
 
 
