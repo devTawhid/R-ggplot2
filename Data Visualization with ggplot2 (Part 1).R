@@ -217,10 +217,6 @@ ggplot(mtcars, aes(as.factor(cyl), fill = as.factor(am))) +
 
 
 
-
-
-
-
 #
 # Plot 0 vs. mpg
 ggplot(mtcars, aes(0, mpg)) +
@@ -238,15 +234,18 @@ ggplot(mtcars, aes(mpg, 0)) +
 
 
 
+#GEOMETRY
+#========
+str(economics)
+ggplot(economics, aes(date, 
+                      unemploy,
+                      color = pce)) +
+  geom_line()
 
-
-
-
-
-
-
-
-
-
+#barplot
+# Plot fcyl, filled by fam
+ggplot(mtcars, aes(as.factor(cyl), fill = as.factor(am))) +
+  # Add a bar layer
+  geom_bar() #dodge
 
 
