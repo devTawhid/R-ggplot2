@@ -246,6 +246,8 @@ ggplot(economics, aes(date,
 # Plot fcyl, filled by fam
 ggplot(mtcars, aes(as.factor(cyl), fill = as.factor(am))) +
   # Add a bar layer
-  geom_bar() #dodge
+  geom_bar(position = "dodge", width = .5) #dodge
+  #theme(legend.position = "new_value")
+
 
 
