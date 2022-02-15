@@ -3,8 +3,8 @@ library(ggplot2)
 data <- mtcars
 str(data)
 
-# mtcarr dataset plotting example
-#================================
+# dataset plotting example
+#===========mtcarrs=====================
 
 ggplot(data, aes(x = wt,       # this two
                  y = mpg,      # are required
@@ -13,8 +13,8 @@ ggplot(data, aes(x = wt,       # this two
                  shape = as.factor(vs))) +
   geom_point();
 
-# iris dataset plotting example
-#==============================
+
+#===========iris===================
 
 data <- iris
 str(data)
@@ -25,8 +25,8 @@ ggplot(data, aes(x = Sepal.Length,
                  color = Species)) +
   geom_point()
 
-# diamon dataset example
-#=======================
+# dataset example
+#===========diamon============
 
 data <- diamonds
 str(data)
@@ -59,9 +59,10 @@ plt_price_vs_carat <- ggplot(diamonds, aes(carat, price))
 plt_price_vs_carat_by_clarity <- plt_price_vs_carat + geom_point(aes(color = clarity))
 plt_price_vs_carat_by_clarity
 
+#====================
 
 ## detailed discussion about aes in ggplot
-#========================================#
+#========================================
 
 # we can use aes in in the geom layer too like this
 
@@ -75,14 +76,14 @@ ggplot(data) +
                  color = Species))
 
 # all the attributes of AES is ggplot
-#===================================
+#===========AES=================
 ## required: 
-#-----------
+#-----------#
 #   x = X axis position
 #   y = Y axis position
 
 ## optional:
-#-----------
+#-----------#
 #   fill = color of points, outlines of other geoms
 #   size = Area or radius of points thickness of lines
 #   alpha = Transparency
@@ -123,7 +124,9 @@ ggplot(mtcars, aes(x = wt,
                    fill = cyl,
                    size = am)) +
   # Change point shape; set alpha
-  geom_point(shape = 21, size = 4, alpha = .6)
+  geom_point(shape = 21, 
+             size = 4, 
+             alpha = .6)
 
 
 
@@ -145,8 +148,53 @@ plt_mpg_vs_wt +
 plt_mpg_vs_wt +
   geom_text(aes(label = as.factor(cyl)))
 
+#updating aes labs
+ggplot(mtcars, aes(fcyl, fill = fam)) +
+  geom_bar() +
+  # Set the axis labels
+  xlab("Number of Cylinders") + 
+  ylab("Count")
 
-#=======================================
+#jitter using 
+# Plot 0 vs. mpg
+ggplot(mtcars, aes(mpg, 0)) +
+  # Add jitter 
+  geom_point(position = "jitter")
+
+
+#======================
+
+#GEOMETRY
+#========
+str(economics)
+ggplot(economics, aes(date, 
+                      unemploy,
+                      color = pce)) +
+  geom_line()
+
+#barplot
+# Plot fcyl, filled by fam
+ggplot(mtcars, aes(as.factor(cyl), fill = as.factor(am))) +
+  # Add a bar layer
+  geom_bar(position = "dodge", width = .5) #dodge
+#theme(legend.position = "new_value")
+
+
+
+iris_min <- iris %>%
+  group_by(Species) %>%
+  summarise_all(mean)
+
+
+ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) + 
+  geom_point() + 
+  geom_point(data = iris_min, shape = 16, size = 5) +
+  ggtitle("Iris data")
+
+#=========================
+
+#===========geom_point=====
+
 # A hexadecimal color
 my_blue <- "#4ABEFF"
 
@@ -187,7 +235,7 @@ ggplot(mtcars, aes(x = wt,
                    y = mpg,
                    color = cyl)) +
   geom_point(color = "yellow",
-            shape = 24,)
+             shape = 24,)
 
 
 #
@@ -198,22 +246,6 @@ ggplot(mtcars, aes(x = mpg,
                    shape = as.factor(am),
                    size = hp/wt)) +
   geom_point()
-
-
-
-# bar plot
-ggplot(mtcars, aes(as.factor(cyl), fill = as.factor(am))) +
-  geom_bar() +
-  # Set the axis labels
-  xlab("Number of Cylinders") + 
-  ylab("Count")
-
-#
-palette <- c(automatic = "#377EB8", manual = "#E41A1C")
-
-ggplot(mtcars, aes(as.factor(cyl), fill = as.factor(am))) +
-  geom_bar(position = "dodge") +
-  labs(x = "Number of Cylinders", y = "Count")
 
 
 
@@ -230,24 +262,70 @@ ggplot(mtcars, aes(mpg, 0)) +
   # Set the y-axis limits
   ylim(-2,2)
 
+#===========================
+
+#===========geom_histogram======
+# Plot mpg
+ggplot(mtcars, aes(x = mpg)) +
+  # Add a histogram layer
+  geom_histogram()
 
 
+# Update the aesthetics so the fill color is by fam
+ggplot(mtcars, aes(mpg, fill = fam)) +
+  geom_histogram(binwidth = 1)
 
 
-#GEOMETRY
-#========
-str(economics)
-ggplot(economics, aes(date, 
-                      unemploy,
-                      color = pce)) +
+#=========================
+
+#===========geom_bar======
+
+# Plot fcyl, filled by fam
+ggplot(mtcars, aes(fcyl, fill = fam)) +
+  # Add a bar layer
+  geom_bar()
+
+ggplot(mtcars, aes(cyl, fill = fam)) +
+  # Change position to use the functional form, with width 0.2
+  geom_bar(position = position_dodge(width = 0.2))
+
+# Plot education, filled by vocabulary
+ggplot(Vocab, aes(education, fill = vocabulary)) +
+  geom_bar() +
+  scale_fill_brewer(palette = "Set1")
+
+ggplot(mtcars, aes(as.factor(cyl), fill = as.factor(am))) +
+  geom_bar() +
+  # Set the axis labels
+  xlab("Number of Cylinders") + 
+  ylab("Count")
+
+#
+palette <- c(automatic = "#377EB8", manual = "#E41A1C")
+
+ggplot(mtcars, aes(as.factor(cyl), fill = as.factor(am))) +
+  geom_bar(position = "dodge") +
+  labs(x = "Number of Cylinders", y = "Count")
+
+#===============================
+
+#==========geom_line==============
+
+# Print the head of economics
+head(economics)
+
+# Using economics, plot unemploy vs. date
+ggplot(economics, aes(date, unemploy)) +
+  # Make it a line plot
   geom_line()
 
-#barplot
-# Plot fcyl, filled by fam
-ggplot(mtcars, aes(as.factor(cyl), fill = as.factor(am))) +
-  # Add a bar layer
-  geom_bar(position = "dodge", width = .5) #dodge
-  #theme(legend.position = "new_value")
+# Plot the Rainbow Salmon time series
+str(fish.species)
+str(fish.tidy)
+ggplot(fish.species, aes(x = Year, y = Rainbow)) +
+  geom_line()
+
+#==============================
 
 
 
